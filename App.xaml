@@ -1,0 +1,10 @@
+﻿<Application x:Class="_1_a_100_ellen.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:_1_a_100_ellen"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <FontFamily x:Key="Digital7">pack://application:,,,/Fonts/#Digital-7</FontFamily>
+        <FontFamily x:Key="Digital7Symbols">pack://application:,,,/Fonts/#Digital-7 Symbols</FontFamily>
+    </Application.Resources>
+</Application>

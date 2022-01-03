@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>_1_a_100_ellen</RootNamespace>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="favicon.ico" />
+    <None Remove="Fonts\digital-7 %28italic%29.ttf" />
+    <None Remove="Fonts\digital-7 %28mono italic%29.ttf" />
+    <None Remove="Fonts\digital-7 %28mono%29.ttf" />
+    <None Remove="Fonts\digital-7.ttf" />
+    <None Remove="Images\1.PNG" />
+    <None Remove="Images\Ember.png" />
+    <None Remove="Images\emberke.jpg" />
+    <None Remove="Images\TV2.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="favicon.ico" />
+    <Resource Include="Fonts\digital-7 (italic).ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\digital-7 (mono italic).ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\digital-7 (mono).ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\digital-7.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\1.PNG" />
+    <Resource Include="Images\emberke.jpg" />
+    <Resource Include="Images\TV2.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="1.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="arany.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Digital7-1e1Z.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Ember.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Kérdések.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TV2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="változók.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
