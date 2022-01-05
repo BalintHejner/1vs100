@@ -196,6 +196,9 @@ namespace _1_a_100_ellen
             A.Margin = new Thickness(képernyőszél / 40 + valasz1.Width / 2 - A.Width / 2, képernyőmag / 10 + A_100_spártai.Height + kérdés.Height, 0, 0);
             B.Margin = new Thickness(540, 337, 0, 0);
             C.Margin = new Thickness(895, 337, 0, 0);
+            takarolablel1.Margin = new Thickness(35, 353, 0, 0);
+            takarolablel2.Margin = new Thickness(390, 353, 0, 0);
+            takarolablel3.Margin = new Thickness(758, 353, 0, 0);
             emberke.Margin = new Thickness(képernyőszél / 40, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
             A_vagy_Az.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 200 + emberke.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height + emberke.Height / 2 - A_vagy_Az.Height / 2, 0, 0);
             xy_ellen.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + emberke.Width + A_vagy_Az.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
@@ -549,14 +552,21 @@ namespace _1_a_100_ellen
                 if (random3 == 0)
                 {
                     valasz1.Content = "";
+                    takarolablel1.Visibility = Visibility.Visible;
                 }
                 if (random3 == 1)
                 {
                     valasz2.Content = "";
+                    takarolablel2.Visibility = Visibility.Visible;
+
+
                 }
                 if (random3 == 2)
                 {
                     valasz3.Content = "";
+                    takarolablel3.Visibility = Visibility.Visible;
+
+
                 }
             }
             if (menekülőútszám == 3)
@@ -663,13 +673,20 @@ namespace _1_a_100_ellen
                 ötvenmilka.Visibility = Visibility.Visible;
                 ötvenmilka.Margin = nyereményfa.Margin;
                 tét.Visibility = Visibility.Visible;
-                tét.Margin = new Thickness(598, 483, 0, 0);
+                tét.Margin = new Thickness(620, 483, 0, 0);
             }
             else
             {
                 nyereményfa.Visibility = Visibility.Visible;
                 ötvenmilka.Visibility = Visibility.Hidden;
                 tét.Visibility = Visibility.Hidden;
+            }
+            if (menekülőútszám != 2)
+            {
+                takarolablel1.Visibility = Visibility.Hidden;
+                takarolablel2.Visibility = Visibility.Hidden;
+                takarolablel3.Visibility = Visibility.Hidden;
+
             }
         }
         public void Újkör()
