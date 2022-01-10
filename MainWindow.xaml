@@ -70,7 +70,7 @@
         <Label x:Name="A_vagy_Az" Foreground="#c000c0" Content="A" HorizontalAlignment="Left" Height="26" Margin="111,512,0,0" VerticalAlignment="Top" Width="29" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" FontFamily="Times New Roman" FontSize="18" FontWeight="Bold" Cursor="Arrow"/>
         <Label x:Name="jelenlegi_összeg" Content="500.000" Foreground="Black" Background="White" HorizontalAlignment="Left" Height="101" Margin="287,478,0,0" VerticalAlignment="Top" Width="235" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="{StaticResource Digital7}" FontSize="40" Cursor="Arrow"/>
         <Label x:Name="nyereményfa" Foreground="Black" Content="4.699.000" HorizontalAlignment="Left" Height="101" Margin="553,478,0,0" VerticalAlignment="Top" Width="235" Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{StaticResource Digital7}" FontSize="40" Cursor="Arrow"/>
-        <Button x:Name="segitseg" Content="Menekülőút" Style="{StaticResource MyButtonStyle}" HorizontalAlignment="Left" Margin="813,478,0,0" VerticalAlignment="Top" Width="235" Height="101" FontFamily="Times New Roman" FontSize="42" Cursor="Hand" HorizontalContentAlignment="Center" Click="segitseg_Click_1" Focusable="False" IsTabStop="False">
+        <Button x:Name="segitseg" Content="Menekülőút" Style="{StaticResource MyButtonStyle}" HorizontalAlignment="Left" Margin="813,478,0,0" VerticalAlignment="Top" Width="235" Height="101" FontFamily="{StaticResource Digital7}" FontSize="42" Cursor="Hand" HorizontalContentAlignment="Center" Click="segitseg_Click_1" Focusable="False" IsTabStop="False">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFE236D7" Offset="0.293"/>
@@ -79,7 +79,7 @@
             </Button.Background>
         </Button>
         <Label x:Name="ötvenmilka" Background="Black" Foreground="White" Content="50.000.000" HorizontalAlignment="Left" Height="101" Margin="553,478,0,0" VerticalAlignment="Top" Width="235" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontFamily="{StaticResource Digital7}" FontSize="48" Cursor="Arrow"/>
-        <Label x:Name="tét" Content="A TÉT" Foreground="#c000c0" Background="Black" HorizontalAlignment="Left" Height="46" Margin="598,483,0,0" VerticalAlignment="Top" Width="144" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{StaticResource Digital7}" FontSize="32" Cursor="Arrow"/>
+        <Label x:Name="tét" Content="A TET" Foreground="#c000c0" Background="Black" HorizontalAlignment="Left" Height="46" Margin="598,479,0,0" VerticalAlignment="Top" Width="144" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{StaticResource Digital7}" FontSize="32" Cursor="Arrow"/>
         <Grid x:Name="A_100_spártai"  HorizontalAlignment="Left" Height="218" Margin="37,24,0,0" VerticalAlignment="Top" Width="1041" Cursor="Arrow">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
