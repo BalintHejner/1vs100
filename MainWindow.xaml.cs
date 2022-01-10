@@ -36,36 +36,31 @@ namespace _1_a_100_ellen
             public string Helyes;
         }
 
-        private const string FontPath = "Digital7-1e1Z.ttf";
+        private const string FontPath = "Digital7-1e1Z.ttf"; //betűtípus
 
-        public List<Kérdés> kérdések = new List<Kérdés>();
-        public List<Label> labelök = new List<Label>();
-        public List<Label> labelökjó = new List<Label>();
-        public List<string> labelök_nevei = new List<string>();
-        public List<Label> rossz_labelök = new List<Label>();
-        public List<int> hányrosszkéthatár = new List<int>();
+        public List<Kérdés> kérdések = new List<Kérdés>(); //a kérdéseket tartalmazó lista
+        public List<Label> labelök = new List<Label>(); //minden falkatag egy label, elsőre 100 darab van belőlük
+        public List<Label> labelökjó = new List<Label>(); //minden fordulóban a helyesen válaszolók egy új listába kerülnek, amit egy fájlba írunk
+        public List<string> labelök_nevei = new List<string>(); //minden label-t a neve alapján azonosítunk
+        public List<Label> rossz_labelök = new List<Label>(); //
         public List<string> változók = new List<string>();
         public List<string> sorsoltválaszok = new List<string>();
         public List<int> rosszrandomszámok = new List<int>();
 
+        //Alapbeállítások
         public int forduló = 1;
-        public bool segítségethasznál = false;
-        public int menekülőútszám = 0;
-        int fordulókérdésszám = 0;
+        public bool segítségethasznál = false; //ez a változó irányít egy ágat
+        public int hányadiksegítségnéltart = 0; //hány menekülőútja van még a játékosnak
         public int összeg = 0;
         public int falkaszám = 100;
-        public int szám = 0;
         public int aktkérdésszám = 0;
         public int rosszdb = 0;
-        private bool valasz1megnyomva = false;
-        private bool valasz2megnyomva = false;
-        private bool valasz3megnyomva = false;
-        private bool segitsegmegnyomva = false;
         public int összrosszválasz;
         public Kérdés akt = new Kérdés();
         public string[] válaszok = { "A", "B", "C" };
         int[] nyereményekperkérdés = { 1000, 4000, 8000, 16000, 32000, 50000, 60000, 80000, 100000, 200000, 400000, 500000 };
         Random r = new Random();
+        public List<Button> gombok = new List<Button>();
 
         public void Változók()
         {
@@ -75,13 +70,11 @@ namespace _1_a_100_ellen
                 változók.Add(adat1[1]);
             }
             forduló = int.Parse(változók[0]);
-            fordulókérdésszám = int.Parse(változók[1]);
-            összeg = int.Parse(változók[2]);
-            falkaszám = int.Parse(változók[3]);
-            szám = int.Parse(változók[4]);
-            aktkérdésszám = int.Parse(változók[5]);
-            rosszdb = int.Parse(változók[6]);
-            menekülőútszám = int.Parse(változók[7]);
+            összeg = int.Parse(változók[1]);
+            falkaszám = int.Parse(változók[2]);
+            aktkérdésszám = int.Parse(változók[3]);
+            rosszdb = int.Parse(változók[4]);
+            hányadiksegítségnéltart = int.Parse(változók[5]);
         }
         public void Kérdésbeolvasás()
         {
@@ -97,73 +90,50 @@ namespace _1_a_100_ellen
                 új.Helyes = kérdésadatok[5];
                 kérdések.Add(új);
             }
+            //válaszgombok
+            gombok.Add(valasz1);
+            gombok.Add(valasz2);
+            gombok.Add(valasz3);
         }
         public void Kérdésfeltétel()
         {
+            List<Kérdés> adottfordulókérdései = new List<Kérdés>();
             for (int i = 0; i < kérdések.Count; i++)
             {
                 if (kérdések[i].Sorszám == forduló)
                 {
-                    fordulókérdésszám++;
+                    adottfordulókérdései.Add(kérdések[i]);
                 }
             }
-            szám = 0;
-            aktkérdésszám = r.Next(0, fordulókérdésszám);
-            for (int i = 0; i < kérdések.Count; i++)
-            {
-                if (kérdések[i].Sorszám == forduló)
-                {
-                    if (szám == aktkérdésszám)
-                    {
-                        akt = kérdések[i];
-                        break;
-                    }
-                    else
-                    {
-                        szám++;
-                    }
-                }
-            }
+            //Új listába helyezi az adott fordulóban feltehető kérdéseket
+            aktkérdésszám = r.Next(0, adottfordulókérdései.Count);
+            akt = adottfordulókérdései[aktkérdésszám];
         }
         public string Összegkiírás(string összeg)
         {
-            string újösszeg = "";
             int jegyfigyelő = összeg.Length % 3;
-            string próbaösszeg = összeg.ToString();
-            //int számláló = 0;
+            string újösszeg = "";
             if (jegyfigyelő == 1)
             {
-                próbaösszeg = "//" + próbaösszeg;
+                összeg = "//" + összeg;
             }
             if (jegyfigyelő == 2)
             {
-                próbaösszeg = "/" + próbaösszeg;
+                összeg = "/" + összeg;
             }
-            for (int i = 0; i <= összeg.Length + 1; i++)
+            for (int i = 0; i < összeg.Length; i++)
             {
-                if (i % 3 == 0 && i > 0)
+                if (i % 3 == 0 && i != 0)
                 {
                     újösszeg += " ";
                 }
-                try
-                {
-                    újösszeg += próbaösszeg[i];
-                }
-                catch (Exception)
-                {
-                    újösszeg += "";
-                }
+                újösszeg += összeg[i];
             }
             újösszeg = újösszeg.Replace("/", "");
-            if (jegyfigyelő == 2)
-            {
-                újösszeg = újösszeg.Remove(újösszeg.Length - 1);
-            }
             return újösszeg;
         }
         public void Szövegek()
         {
-            //Random r = new Random();
             kérdés.Content = akt.Kérdésmaga;
             valasz1.Content = akt.A_válasz;
             valasz2.Content = akt.B_válasz;
@@ -178,7 +148,6 @@ namespace _1_a_100_ellen
             {
                 nyereményfa.Content = "500 000 Ft";
             }
-            //Kérdés aktkérdés = kérdések[r.Next(0, fordulókérdésszám + 1)];
         }
         public void Elhelyezés()
         {
@@ -198,17 +167,33 @@ namespace _1_a_100_ellen
             C.Margin = new Thickness(895, 337, 0, 0);
             emberke.Margin = new Thickness(képernyőszél / 40, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
             A_vagy_Az.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 200 + emberke.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height + emberke.Height / 2 - A_vagy_Az.Height / 2, 0, 0);
-            xy_ellen.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + emberke.Width + A_vagy_Az.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
-            //emberke.Margin = new Point(képernyőszél / 40, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height);        
-            //emberke.Margin = new Point(képernyőszél / 40, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height);        
+            xy_ellen.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + emberke.Width + A_vagy_Az.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);     
             jelenlegi_összeg.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + képernyőszél / 40 + emberke.Width + A_vagy_Az.Width + xy_ellen.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
             nyereményfa.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + képernyőszél / 40 * 2 + emberke.Width + A_vagy_Az.Width + xy_ellen.Width + jelenlegi_összeg.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
             segitseg.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + képernyőszél / 40 * 3 + emberke.Width + A_vagy_Az.Width + xy_ellen.Width + jelenlegi_összeg.Width + nyereményfa.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
             falka.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + képernyőszél / 10 + emberke.Width + A_vagy_Az.Width + xy_ellen.Width + jelenlegi_összeg.Width + nyereményfa.Width + segitseg.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
             penz.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + képernyőszél / 10 + emberke.Width + A_vagy_Az.Width + xy_ellen.Width + jelenlegi_összeg.Width + nyereményfa.Width + segitseg.Width, képernyőmag / 40 * 6 - penz.Height + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
         }
+        public void SegítségSzíne()
+        {
+            if (hányadiksegítségnéltart == 1)
+            {
+                segitseg.Background = Brushes.Gold;
+            }
+            if (hányadiksegítségnéltart == 2)
+            {
+                segitseg.Background = Brushes.Red;
+            }
+        }
         public void Labelök()
         {
+            //Label[] labels = new Label[100];
+            //foreach (var item in File.ReadAllLines("labello.txt"))
+            //{
+            //    Label label = new Label();
+            //    labelök.Add(label);
+            //    labelök.Last().Name = item;
+            //}
             labelök.Add(label1);
             labelök.Add(label2);
             labelök.Add(label3);
@@ -309,10 +294,7 @@ namespace _1_a_100_ellen
             labelök.Add(label98);
             labelök.Add(label99);
             labelök.Add(label100);
-            //foreach (var item in labelök)
-            //{
-            //    File.AppendAllText("labellomásolat.txt",  item.Name + "\n");
-            //}
+
             if (forduló == 1)
             {
                 List<string> másolandó = new List<string>();
@@ -352,63 +334,99 @@ namespace _1_a_100_ellen
                 File.WriteAllLines("labello.txt", beírnólabel);
             }
         }
-        public List<int> Válaszhatár(int forduló)
+        public string Válaszhatár(int forduló)
         {
-            List<int> visszaad = new List<int>();
-            if (forduló == 1)
+            Dictionary<int, string> válaszhatárok = new Dictionary<int, string>();
+            foreach (var item in File.ReadAllLines("válaszhatár.txt"))
             {
-                visszaad.Add(0);
-                visszaad.Add(3);
+                string[] adatok = item.Split("-");
+                válaszhatárok.Add(int.Parse(adatok[0]), adatok[1] + "-" + adatok[2]);
             }
-            if (forduló == 2)
+            if (forduló <= 8)
             {
-                visszaad.Add(3);
-                visszaad.Add(6);
-
+                return válaszhatárok[forduló];
             }
-            if (forduló == 3)
-            {
-                visszaad.Add(5);
-                visszaad.Add(10);
-            }
-            if (forduló == 4 || forduló == 5)
-            {
-                visszaad.Add(8);
-                visszaad.Add(13);
-            }
-            if (forduló == 6 || forduló == 7)
-            {
-                visszaad.Add(10);
-                visszaad.Add(15);
-            }
-            if (forduló == 8)
-            {
-                visszaad.Add(14);
-                visszaad.Add(17);
-            }
-            if (forduló > 8)
+            else
             {
                 forduló = forduló - 9;
-                visszaad.Add(0);
-                visszaad.Add(falkaszám + 1);
+                return $"0-{falkaszám + 1}";
             }
-            //1. 0-2
-            //2. 3-5
-            //3. 5-9
-            //4. 8-12
-            //5. 8-12
-            //6. 10-14
-            //7. 10-14
-            //---44-68
-            //8. 14-16
-            //---58-84
-            //9 ---0-x
-            //10 ---0-x
-            //11 ---0-x
-            //12 ---0-x
-            return visszaad;
         }
-        public void Helyeseválasz(Button betűjel, string betű)
+        public void JátékVége(int azonosító)
+        {
+            switch (azonosító)
+            {
+                case 1: //minden ellenfelét legyőzta
+                    MessageBox.Show("A játéknak vége, a nyereménye: 50.000.000 Ft! Gratulálunk!");
+                    break;
+                case 2: //rossz választ adott
+                    MessageBox.Show("A játéknak vége. Üres kézzel távozik.");
+                    break;
+                case 3: //A harmadik segítséget veszi igénybe
+                    MessageBox.Show($"A nyeremény negyedével távozik, ami {Összegkiírás(összeg.ToString())} Ft. Gratulálunk!");
+                    break;
+                case 4: //A pénzt választja a falka helyett
+                    MessageBox.Show($"A nyereményed: {Összegkiírás(összeg.ToString())} Ft! Gratulálunk!");
+                    break;
+                default:
+                    break;
+            }
+            File.WriteAllText("változók.txt", "forduló;1");
+            File.AppendAllText("változók.txt", "\nösszeg;0");
+            File.AppendAllText("változók.txt", "\nfalkaszám;100");
+            File.AppendAllText("változók.txt", "\naktkérdésszám;0");
+            File.AppendAllText("változók.txt", "\nrosszdb;0");
+            File.AppendAllText("változók.txt", "\nhányadiksegítségnéltart;0");
+            Application.Current.Shutdown();
+        }
+        public void KépernyőFrissítés()
+        {
+            jelenlegi_összeg.Content = Összegkiírás(összeg.ToString()).ToString() + " Ft";
+            jelenlegi_összeg.HorizontalContentAlignment = HorizontalAlignment.Center;
+            jelenlegi_összeg.VerticalContentAlignment = VerticalAlignment.Center;
+            falkaszám -= rosszdb;
+            xy_ellen.Content = falkaszám + " \n ELLEN";
+            penz.Content = Összegkiírás(összeg.ToString()) + " Ft";
+            penz.Visibility = Visibility.Visible;
+            falka.Visibility = Visibility.Visible;
+        }
+        public void HelyesAVálasz(Button betűjel)
+        {
+            MessageBox.Show("A válasz helyes!");
+            betűjel.Background = Brushes.Green;
+            Válaszfelfedő();
+            összeg = forduló <= 11 ? összeg += rosszdb * nyereményekperkérdés[forduló - 1] : összeg += rosszdb * 500000;
+            if (rosszdb == 0)
+            {
+                MessageBox.Show("Mindenki tudta a helyes választ, így nem gazdagodik egyetlen forinttal sem!");
+            }
+            else
+            {
+                MessageBox.Show($"{rosszdb} db játékos rosszul válaszolt, így {Összegkiírás((forduló <= 11 ? rosszdb * nyereményekperkérdés[forduló - 1] : rosszdb * 500000).ToString())} Ft üti a markát!");
+            }
+        }
+        public void HelytelenAVálasz(Button betűjel)
+        {
+            MessageBox.Show("A válasz helytelen!");
+            betűjel.Background = Brushes.Red;
+            if ("A" == akt.Helyes)
+            {
+                valasz1.Background = Brushes.Green;
+            }
+            else
+            {
+                if ("B" == akt.Helyes)
+                {
+                    valasz2.Background = Brushes.Green;
+                }
+                else
+                {
+                    valasz3.Background = Brushes.Green;
+                }
+            }
+            MessageBox.Show($"A helyes válasz: {akt.Helyes}");
+        }
+        public void VálaszVizsgáló(Button betűjel, string betű)
         {
             if (segítségethasznál)
             {
@@ -418,42 +436,9 @@ namespace _1_a_100_ellen
             {
                 if (betű.ToUpper() == akt.Helyes)
                 {
-                    MessageBox.Show("A válasz helyes!");
-                    betűjel.Background = Brushes.Green;
-                    Válaszfelfedő();
-                    if (forduló <= 11)
-                    {
-                        if (rosszdb == 0)
-                        {
-                            MessageBox.Show("Mindenki tudta a helyes választ, így nem gazdagodik egyetlen forinttal sem!");
-                        }
-                        else
-                        {
-                            MessageBox.Show($"{rosszdb} db játékos rosszul válaszolt, így {Összegkiírás((rosszdb * nyereményekperkérdés[forduló - 1]).ToString())} Ft üti a markát!");
-                            összeg += rosszdb * nyereményekperkérdés[forduló - 1];
-                        }
+                    HelyesAVálasz(betűjel);
+                    KépernyőFrissítés();
 
-                    }
-                    else
-                    {
-                        if (rosszdb == 0)
-                        {
-                            MessageBox.Show("Mindenki tudta a helyes választ, így nem gazdagodik egyetlen forinttal sem!");
-                        }
-                        else
-                        {
-                            MessageBox.Show($"{rosszdb} db játékos rosszul válaszolt, így {Összegkiírás((rosszdb * 500000).ToString())} Ft üti a markát!");
-                            összeg += rosszdb * 500000;
-                        }
-                    }
-                    jelenlegi_összeg.Content = Összegkiírás(összeg.ToString()).ToString() + " Ft";
-                    jelenlegi_összeg.HorizontalContentAlignment = HorizontalAlignment.Center;
-                    jelenlegi_összeg.VerticalContentAlignment = VerticalAlignment.Center;
-                    falkaszám -= rosszdb;
-                    xy_ellen.Content = falkaszám + " \n ELLEN";
-                    penz.Content = Összegkiírás(összeg.ToString()) + " Ft";
-                    penz.Visibility = Visibility.Visible;
-                    falka.Visibility = Visibility.Visible;
                     foreach (var item in rossz_labelök)
                     {
                         if (labelök.Contains(item))
@@ -468,118 +453,70 @@ namespace _1_a_100_ellen
                             labelök_nevei.Remove(item.Name);
                         }
                     }
+
                     if (falkaszám == 0)
                     {
                         MessageBox.Show("Nem maradt senki a falkában, mind a 100 embert legyőzted!");
-                        MessageBox.Show("A játéknak vége, a nyereményed: 50.000.000 Ft! Gratulálunk!");
-                        File.WriteAllText("változók.txt", "forduló;1");
-                        File.AppendAllText("változók.txt", "\nfordulókérdésszám;0");
-                        File.AppendAllText("változók.txt", "\nösszeg;0");
-                        File.AppendAllText("változók.txt", "\nfalkaszám;100");
-                        File.AppendAllText("változók.txt", "\nszám;0");
-                        File.AppendAllText("változók.txt", "\naktkérdésszám;0");
-                        File.AppendAllText("változók.txt", "\nrosszdb;0");
-                        File.AppendAllText("változók.txt", "\nmenekülőútszám;0");
-                        Application.Current.Shutdown();
+                        JátékVége(1);
                     }
-                    //rosszdb = labelök.Count;
-                    //MessageBox.Show($"A rossz válaszok száma: {rosszdb}");
                 }
                 else
                 {
-                    MessageBox.Show("A válasz helytelen!");
-                    betűjel.Background = Brushes.Red;
-                    if ("A" == akt.Helyes)
-                    {
-                        valasz1.Background = Brushes.Green;
-                    }
-                    else
-                    {
-                        if ("B" == akt.Helyes)
-                        {
-                            valasz2.Background = Brushes.Green;
-                        }
-                        else
-                        {
-                            valasz3.Background = Brushes.Green;
-                        }
-                    }
-                    MessageBox.Show($"A helyes válasz: {akt.Helyes}");
-                    MessageBox.Show("A játéknak vége! A nyereményed 0 Ft");
-                    File.WriteAllText("változók.txt", "forduló;1");
-                    File.AppendAllText("változók.txt", "\nfordulókérdésszám;0");
-                    File.AppendAllText("változók.txt", "\nösszeg;0");
-                    File.AppendAllText("változók.txt", "\nfalkaszám;100");
-                    File.AppendAllText("változók.txt", "\nszám;0");
-                    File.AppendAllText("változók.txt", "\naktkérdésszám;0");
-                    File.AppendAllText("változók.txt", "\nrosszdb;0");
-                    File.AppendAllText("változók.txt", "\nmenekülőútszám;0");
-                    Application.Current.Shutdown();
+                    HelytelenAVálasz(betűjel);
+                    JátékVége(2);
                 }
             }
         }
-
         public void Segítség(string megnyomott)
         {
-            menekülőútszám++;
-            int segítség1 = 0;
-            if (menekülőútszám == 1)
+            hányadiksegítségnéltart++;
+            switch (hányadiksegítségnéltart)
             {
-                for (int i = 0; i < sorsoltválaszok.Count; i++)
-                {
-                    if (sorsoltválaszok[i] == megnyomott)
-                    {
-                        segítség1++;
-                    }
-                }
-                MessageBox.Show($"{segítség1} db versenyző nyomta meg ezt a választ!");
-            }
-            if (menekülőútszám == 2)
-            {
-                int random3;
-                bool nemahelyes = true;
-                do
-                {
-                    random3 = r.Next(0, 3);
-                    if (válaszok[random3] != akt.Helyes)
-                    {
-                        nemahelyes = false;
-                    }
-                } while (nemahelyes);
-                if (random3 == 0)
-                {
-                    valasz1.Content = "";
-                }
-                if (random3 == 1)
-                {
-                    valasz2.Content = "";
-
-
-                }
-                if (random3 == 2)
-                {
-                    valasz3.Content = "";
-
-
-                }
-            }
-            if (menekülőútszám == 3)
-            {
-                összeg = összeg / 4;
-                MessageBox.Show($"A játéknak vége, a nyereményed: {Összegkiírás(összeg.ToString())} Ft. Gratulálunk!");
-                File.WriteAllText("változók.txt", "forduló;1");
-                File.AppendAllText("változók.txt", "\nfordulókérdésszám;0");
-                File.AppendAllText("változók.txt", "\nösszeg;0");
-                File.AppendAllText("változók.txt", "\nfalkaszám;100");
-                File.AppendAllText("változók.txt", "\nszám;0");
-                File.AppendAllText("változók.txt", "\naktkérdésszám;0");
-                File.AppendAllText("változók.txt", "\nrosszdb;0");
-                File.AppendAllText("változók.txt", "\nmenekülőútszám;0");
-                Application.Current.Shutdown();
+                case 1: 
+                    SegítségElső(megnyomott);
+                    break;
+                case 2: SegítségMásodik();
+                    break;
+                case 3: SegítségHarmadik();
+                    break;
+                default:
+                    break;
             }
             segítségethasznál = false;
         }
-
+        public void SegítségElső(string megnyomott)
+        {
+            int adottválasztnyomók = 0;
+            for (int i = 0; i < sorsoltválaszok.Count; i++)
+            {
+                if (sorsoltválaszok[i] == megnyomott)
+                {
+                    adottválasztnyomók++;
+                }
+            }
+            MessageBox.Show($"{adottválasztnyomók} db versenyző nyomta meg ezt a választ!");
+        }
+        public void SegítségMásodik()
+        {
+            int random3;
+            bool nemahelyes = true;
+            do
+            {
+                random3 = r.Next(0, 3);
+                if (válaszok[random3] != akt.Helyes)
+                {
+                    nemahelyes = false;
+                }
+            } while (nemahelyes);
+            gombok[random3].Content = "";
+            gombok[random3].IsEnabled = false;
+            segitseg.Background = Brushes.Red;
+        }
+        public void SegítségHarmadik()
+        {
+            összeg = összeg / 4;
+            JátékVége(3);
+        }
         public void Válaszfelfedő()
         {
             for (int i = 0; i < labelök.Count; i++)
@@ -595,28 +532,19 @@ namespace _1_a_100_ellen
                     labelök[i].Background = Brushes.Red;
                 }
             }
+            //a segítség után ne lehessen benyomni új választ
+            valasz1.IsEnabled = false;
+            valasz2.IsEnabled = false;
+            valasz3.IsEnabled = false;
+            segitseg.IsEnabled = false; //se a segítséget
         }
         public void Válaszsorsoló()
         {
-            hányrosszkéthatár = Válaszhatár(forduló);
-            összrosszválasz = r.Next(hányrosszkéthatár[0], hányrosszkéthatár[1]);
+            string[] határok = Válaszhatár(forduló).Split("-");
+            összrosszválasz = r.Next(int.Parse(határok[0]), int.Parse(határok[1]));
             foreach (var label in labelök)
             {
                 sorsoltválaszok.Add(akt.Helyes);
-                //1. 0-2
-                //2. 3-5
-                //3. 5-9
-                //4. 8-12
-                //5. 8-12
-                //6. 10-14
-                //7. 10-14
-                //---44-68
-                //8. 14-16
-                //---58-84
-                //9 ---0-x
-                //10 ---2-x
-                //11 ---4-x
-                //12 ---6-x
             }
             for (int i = 0; i < összrosszválasz; i++)
             {
@@ -667,7 +595,7 @@ namespace _1_a_100_ellen
                 ötvenmilka.Visibility = Visibility.Visible;
                 ötvenmilka.Margin = nyereményfa.Margin;
                 tét.Visibility = Visibility.Visible;
-                tét.Margin = new Thickness(620, 483, 0, 0);
+                tét.Margin = new Thickness(598, 483, 0, 0);
             }
             else
             {
@@ -681,20 +609,14 @@ namespace _1_a_100_ellen
             MessageBox.Show($"A {forduló + 1}. kör következik!");
             forduló++;
             File.WriteAllText("változók.txt", "forduló;" + forduló);
-            File.AppendAllText("változók.txt", "\nfordulókérdésszám;0");
             File.AppendAllText("változók.txt", "\nösszeg;" + összeg);
             File.AppendAllText("változók.txt", "\nfalkaszám;" + falkaszám);
-            File.AppendAllText("változók.txt", "\nszám;0");
             File.AppendAllText("változók.txt", "\naktkérdésszám;" + aktkérdésszám);
             File.AppendAllText("változók.txt", "\nrosszdb;0");
-            File.AppendAllText("változók.txt", "\nmenekülőútszám;" + menekülőútszám);
-
+            File.AppendAllText("változók.txt", "\nhányadiksegítségnéltart;" + hányadiksegítségnéltart);
             File.WriteAllLines("labello.txt", labelök_nevei);
-
             Process.Start(Process.GetCurrentProcess().MainModule.FileName);
             Application.Current.Shutdown();
-
-
         }
         public MainWindow()
         {
@@ -703,6 +625,7 @@ namespace _1_a_100_ellen
             Változók();
             Kérdésbeolvasás();
             Kérdésfeltétel();
+            SegítségSzíne();
             Szövegek();
             Labelök();
             Láthatóság();
@@ -716,122 +639,34 @@ namespace _1_a_100_ellen
         }
         private void valasz1_Click_1(object sender, RoutedEventArgs e)
         {
-            Helyeseválasz(valasz1, "A");
-            valasz1megnyomva = true;
-            if (valasz1megnyomva == true && segitsegmegnyomva == false)
-            {
-                valasz1.IsEnabled = false;
-                valasz2.IsEnabled = false;
-                valasz3.IsEnabled = false;
-                segitseg.IsEnabled = false;
-                falka.IsEnabled = true;
-                penz.IsEnabled = true;
-            } else if(valasz1megnyomva == true && segitsegmegnyomva == true)
-            {
-                valasz1.IsEnabled = true;
-                valasz2.IsEnabled = true;
-                valasz3.IsEnabled = true;
-                segitseg.IsEnabled = true;
-                falka.IsEnabled = true;
-                penz.IsEnabled = true;
-            }
-
+            VálaszVizsgáló(valasz1, "A");
         }
-
         private void valasz2_Click_1(object sender, RoutedEventArgs e)
         {
-            Helyeseválasz(valasz2, "B");
-            valasz2megnyomva = true;
-            if (valasz2megnyomva == true && segitsegmegnyomva == false)
-            {
-                valasz1.IsEnabled = false;
-                valasz2.IsEnabled = false;
-                valasz3.IsEnabled = false;
-                falka.IsEnabled = true;
-                penz.IsEnabled = true;
-                segitseg.IsEnabled = false;
-            }
-            else if (valasz2megnyomva == true && segitsegmegnyomva == true)
-            {
-                valasz1.IsEnabled = true;
-                valasz2.IsEnabled = true;
-                valasz3.IsEnabled = true;
-                segitseg.IsEnabled = true;
-                falka.IsEnabled = true;
-                penz.IsEnabled = true;
-            }
+            VálaszVizsgáló(valasz2, "B");
         }
-
         private void valasz3_Click_1(object sender, RoutedEventArgs e)
         {
-            Helyeseválasz(valasz3, "C");
-            valasz3megnyomva = true;
-            if (valasz3megnyomva == true && segitsegmegnyomva == false)
-            {
-                valasz1.IsEnabled = false;
-                valasz2.IsEnabled = false;
-                valasz3.IsEnabled = false;
-                falka.IsEnabled = true;
-                penz.IsEnabled = true;
-                segitseg.IsEnabled = false;
-
-            }
-            else if (valasz3megnyomva == true && segitsegmegnyomva == true)
-            {
-                valasz1.IsEnabled = true;
-                valasz2.IsEnabled = true;
-                valasz3.IsEnabled = true;
-                segitseg.IsEnabled = true;
-                falka.IsEnabled = true;
-                penz.IsEnabled = true;
-            }
+            VálaszVizsgáló(valasz3, "C");
         }
-
         private void penz_Click_1(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show($"A nyereményed: {Összegkiírás(összeg.ToString())} Ft! Gratulálunk!");
-            File.WriteAllText("változók.txt", "forduló;1");
-            File.AppendAllText("változók.txt", "\nfordulókérdésszám;0");
-            File.AppendAllText("változók.txt", "\nösszeg;0");
-            File.AppendAllText("változók.txt", "\nfalkaszám;100");
-            File.AppendAllText("változók.txt", "\nszám;0");
-            File.AppendAllText("változók.txt", "\naktkérdésszám;0");
-            File.AppendAllText("változók.txt", "\nrosszdb;0");
-            File.AppendAllText("változók.txt", "\nmenekülőútszám;0");
-            Application.Current.Shutdown();
+            JátékVége(4);
         }
-
         private void falka_Click_1(object sender, RoutedEventArgs e)
         {
             Újkör();
         }
-
         private void segitseg_Click_1(object sender, RoutedEventArgs e)
         {
             segítségethasznál = true;
-            if (menekülőútszám > 0)
-            {
-                Segítség("rgeuioz");
-            }
-            if (menekülőútszám == 0)
+            if (hányadiksegítségnéltart == 0)
             {
                 segitseg.Background = Brushes.Gold;
             }
-            if (menekülőútszám == 2)
+            else
             {
-                segitseg.Background = Brushes.Red;
-                segitseg.Content = összeg / 4 + " Ft";
-                segitseg.Foreground = Brushes.White;
-            }
-            segitsegmegnyomva = true;
-            if (segitsegmegnyomva == true)
-            {
-                valasz1.IsEnabled = true;
-                valasz2.IsEnabled = true;
-                valasz3.IsEnabled = true;
-                segitseg.IsEnabled = true;
-                falka.IsEnabled = true;
-                penz.IsEnabled = true;
+                Segítség("-1");
             }
         }
     }

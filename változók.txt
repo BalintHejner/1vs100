@@ -1,8 +1,6 @@
 forduló;1
-fordulókérdésszám;0
 összeg;0
 falkaszám;100
-szám;0
 aktkérdésszám;0
 rosszdb;0
 menekülőútszám;0
