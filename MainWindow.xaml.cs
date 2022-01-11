@@ -174,7 +174,6 @@ namespace _1_a_100_ellen
             segitseg.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + képernyőszél / 40 * 3 + emberke.Width + A_vagy_Az.Width + xy_ellen.Width + jelenlegi_összeg.Width + nyereményfa.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
             falka.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + képernyőszél / 10 + emberke.Width + A_vagy_Az.Width + xy_ellen.Width + jelenlegi_összeg.Width + nyereményfa.Width + segitseg.Width, képernyőmag / 40 * 7 + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
             penz.Margin = new Thickness(képernyőszél / 40 - képernyőszél / 150 + képernyőszél / 10 + emberke.Width + A_vagy_Az.Width + xy_ellen.Width + jelenlegi_összeg.Width + nyereményfa.Width + segitseg.Width, képernyőmag / 40 * 6 - penz.Height + kérdés.Height + A_100_spártai.Height + valasz1.Height, 0, 0);
-            tét.Margin = new Thickness(610, 479, 0, 0);
         }
         public void SegítségSzíne()
         {
