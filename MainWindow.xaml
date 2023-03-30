@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_1_a_100_ellen"
         mc:Ignorable="d"
-        Title="1 a 100 ellen" Height="640" Width="1380" Icon="/favicon.ico">
+        Title="1 a 100 ellen" Height="640" Width="1380" Icon="/favicon.ico" VerticalAlignment="Center" HorizontalAlignment="Center">
     <Window.Resources>
         <!-- This style is used for buttons, to remove the WPF default 'animated' mouse over effect -->
         <Style x:Key="MyButtonStyle" TargetType="Button">
@@ -41,7 +41,7 @@
         </Grid.Background>
 
         <Label x:Name="xy_ellen" Background="White" Content="100 &#xD;&#xA;ellen" HorizontalAlignment="Left" Height="101" Margin="140,479,0,0" VerticalAlignment="Top" Width="120" FontFamily="{StaticResource Digital7}" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Arrow" FlowDirection="LeftToRight"/>
-        <Button x:Name="penz" Content="PÉNZ" HorizontalAlignment="Left" Style="{StaticResource MyButtonStyle}" Margin="1099,369,0,0" VerticalAlignment="Top" Width="235" Height="95" FontFamily="{StaticResource Digital7}" FontSize="38" Cursor="Hand" Click="penz_Click_1" Focusable="False" IsTabStop="False" ClickMode="Press">
+        <Button x:Name="penz" Content="PÉNZ" HorizontalAlignment="Left" Style="{StaticResource MyButtonStyle}" Margin="1099,361,0,0" VerticalAlignment="Top" Width="235" Height="100" FontFamily="{StaticResource Digital7}" FontSize="38" Cursor="Hand" Click="penz_Click_1" Focusable="False" IsTabStop="False" ClickMode="Press">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFE236D7" Offset="0.293"/>
@@ -49,7 +49,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="falka" Content="FALKA" HorizontalAlignment="Left" Style="{StaticResource MyButtonStyle}" Margin="1099,478,0,0" VerticalAlignment="Top" Width="235" Height="95" FontFamily="{StaticResource Digital7}" FontSize="44" Cursor="Hand" Click="falka_Click_1" IsTabStop="False">
+        <Button x:Name="falka" Content="FALKA" HorizontalAlignment="Left" Style="{StaticResource MyButtonStyle}" Margin="1099,479,0,0" VerticalAlignment="Top" Width="235" Height="100" FontFamily="{StaticResource Digital7}" FontSize="44" Cursor="Hand" Click="falka_Click_1" IsTabStop="False">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFE236D7" Offset="0.293"/>
@@ -79,7 +79,7 @@
             </Button.Background>
         </Button>
         <Label x:Name="ötvenmilka" Background="Black" Foreground="White" Content="50.000.000" HorizontalAlignment="Left" Height="101" Margin="553,478,0,0" VerticalAlignment="Top" Width="235" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontFamily="{StaticResource Digital7}" FontSize="48" Cursor="Arrow"/>
-        <Label x:Name="tét" Content="A TET" Foreground="#c000c0" Background="Black" HorizontalAlignment="Left" Height="46" Margin="598,479,0,0" VerticalAlignment="Top" Width="144" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{StaticResource Digital7}" FontSize="32" Cursor="Arrow"/>
+        <Label x:Name="tét" Content="JACKPOT" Foreground="#c000c0" Background="Black" HorizontalAlignment="Center" Height="46" Margin="0,482,0,0" VerticalAlignment="Top" Width="144" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{StaticResource Digital7}" FontSize="32" Cursor="Arrow"/>
         <Grid x:Name="A_100_spártai"  HorizontalAlignment="Left" Height="218" Margin="37,24,0,0" VerticalAlignment="Top" Width="1041" Cursor="Arrow">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
