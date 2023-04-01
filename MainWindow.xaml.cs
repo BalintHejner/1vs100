@@ -372,7 +372,7 @@ namespace _1_a_100_ellen
                     MessageBox.Show("A játéknak vége, a nyereménye: 50.000.000 Ft! Gratulálunk!");
                     break;
                 case 2: //rossz választ adott
-                    MessageBox.Show("A játéknak vége. Üres kézzel távozik.");
+                    MessageBox.Show($"A játéknak vége. Üres kézzel távozik. A falka tagjai egyenként {összeg/falkaszám:f0} Ft-tal távoznak.");
                     break;
                 case 3: //A harmadik segítséget veszi igénybe
                     MessageBox.Show($"A nyeremény negyedével távozik, ami {Összegkiírás(összeg.ToString())} Ft. Gratulálunk!");
