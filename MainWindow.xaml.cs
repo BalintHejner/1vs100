@@ -35,9 +35,7 @@ namespace _1_a_100_ellen
             public string C_válasz;
             public string Helyes;
         }
-
-        private const string FontPath = "Digital7-1e1Z.ttf"; //betűtípus
-        
+       
 
         public List<Kérdés> kérdések = new List<Kérdés>(); //a kérdéseket tartalmazó lista
         public List<Label> labelök = new List<Label>(); //minden falkatag egy label, elsőre 100 darab van belőlük
@@ -366,13 +364,16 @@ namespace _1_a_100_ellen
         }
         public void JátékVége(int azonosító)
         {
+
+            int osszeg = összeg / falkaszám;
+            string formatOsszeg = string.Format("{0:n0}", osszeg);
             switch (azonosító)
             {
                 case 1: //minden ellenfelét legyőzta
                     MessageBox.Show("A játéknak vége, a nyereménye: 50.000.000 Ft! Gratulálunk!");
                     break;
                 case 2: //rossz választ adott
-                    MessageBox.Show($"A játéknak vége. Üres kézzel távozik. A falka tagjai egyenként {összeg/falkaszám:f0} Ft-tal távoznak.");
+                    MessageBox.Show($"A játéknak vége. Üres kézzel távozik. A falka tagjai egyenként {formatOsszeg} Ft-tal távoznak."); //összeg/falkaszám:f0
                     break;
                 case 3: //A harmadik segítséget veszi igénybe
                     MessageBox.Show($"A nyeremény negyedével távozik, ami {Összegkiírás(összeg.ToString())} Ft. Gratulálunk!");
@@ -401,12 +402,26 @@ namespace _1_a_100_ellen
             penz.Content = Összegkiírás(összeg.ToString()) + " Ft";
             penz.Visibility = Visibility.Visible;
             falka.Visibility = Visibility.Visible;
+
+            if (segitseg.Background == Brushes.Red)
+            {
+                segitseg.FontFamily = new FontFamily("digital-7");
+
+            }
         }
         public void HelyesAVálasz(Button betűjel)
         {
             MessageBox.Show("A válasz helyes!");
             betűjel.Background = Brushes.Green;
             Válaszfelfedő();
+            for (int i = 1; i <= 100; i++)
+            {
+                UIElement currentElement = FindName($"versenyzo{i}") as UIElement;
+                if (currentElement != null)
+                {
+                    currentElement.Visibility = Visibility.Hidden;
+                }
+            }
             összeg = forduló <= 11 ? összeg += rosszdb * nyereményekperkérdés[forduló - 1] : összeg += rosszdb * 500000;
             if (rosszdb == 0)
             {
@@ -523,6 +538,7 @@ namespace _1_a_100_ellen
             gombok[random3].Content = "";
             gombok[random3].IsEnabled = false;
             segitseg.Background = Brushes.Red;
+            segitseg.FontFamily = new FontFamily("digital-7");
             segitseg.Content = Összegkiírás((összeg / 4).ToString()) + " Ft";
         }
         public void SegítségHarmadik()
@@ -602,6 +618,15 @@ namespace _1_a_100_ellen
             segitseg.Visibility = Visibility.Visible;
             penz.Visibility = Visibility.Hidden;
             falka.Visibility = Visibility.Hidden;
+            versenyzo1.Visibility = Visibility.Visible;
+            //for (int i = 1; i <= 100; i++)
+            //{
+            //    UIElement currentElement = FindName($"versenyzo{i}") as UIElement;
+            //    if (currentElement != null)
+            //    {
+            //        currentElement.Visibility = Visibility.Visible;
+            //    }
+            //}
             if (falkaszám == 1)
             {
                 nyereményfa.Visibility = Visibility.Hidden;
@@ -628,6 +653,7 @@ namespace _1_a_100_ellen
             File.AppendAllText("változók.txt", "\nrosszdb;0");
             File.AppendAllText("változók.txt", "\nhányadiksegítségnéltart;" + hányadiksegítségnéltart);
             File.WriteAllLines("labello.txt", labelök_nevei);
+            if (segitseg.Background == Brushes.Red) { segitseg.FontFamily = new FontFamily("digital-7"); }
             Process.Start(Process.GetCurrentProcess().MainModule.FileName);
             Application.Current.Shutdown();
         }
